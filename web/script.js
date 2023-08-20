@@ -3,7 +3,11 @@ const canvas = document.getElementById('canvas1');
 const ctx = canvas.getContext('2d');
 
 const image1 = new Image();
-image1.src = '../images/C12apture.PNG';
+image1.src = '../images/C4141apture.PNG';
+
+const inputSlider = document.getElementById('resolution');
+const inputLabel = document.getElementById('resolutionLabel');
+inputSlider.addEventListener('change', handleSlider);
 
 class Cell {
     constructor(x, y, symbol, color) {
@@ -20,7 +24,6 @@ class Cell {
 
 class ascii {
     #imageCellArray = [];
-    #symbols = [];
     #pixels = [];
     #ctx;
     #width;
@@ -36,18 +39,18 @@ class ascii {
 
     #convertToSymbol(g) {
         if (g > 250) return '@';
-        else if (g < 240) return '*';
-        else if (g < 220) return '+';
-        else if (g < 200) return '#';
-        else if (g < 180) return '&';
-        else if (g < 160) return '%';
-        else if (g < 140) return '_';
-        else if (g < 120) return ':';
-        else if (g < 100) return '$';
-        else if (g < 80) return '/';
-        else if (g < 60) return '-';
-        else if (g < 40) return 'X';
-        else if (g < 20) return 'W';
+        else if (g > 240) return '*';
+        else if (g > 220) return '+';
+        else if (g > 200) return '#';
+        else if (g > 180) return '&';
+        else if (g > 160) return '%';
+        else if (g > 140) return '_';
+        else if (g > 120) return ':';
+        else if (g > 100) return '$';
+        else if (g > 80) return '/';
+        else if (g > 60) return '-';
+        else if (g > 40) return 'X';
+        else if (g > 20) return 'W';
         else return '';
     }
 
@@ -77,20 +80,32 @@ class ascii {
     #drawAscii() {
         this.#ctx.clearRect(0, 0, this.#width, this.#height);
         for (let i = 0; i < this.#imageCellArray.length; i++) {
-            this.#imageCellArray[i].draw(ctx);
+            this.#imageCellArray[i].draw(this.#ctx);
         }
     }
 
     draw(cellSize) {
         this.#scanImage(cellSize);
+        this.#drawAscii();
+    }
+}
+let eff;
+
+function handleSlider() {
+    if (inputSlider.value == 1) {
+        inputLabel.innerHTML = 'Original image';
+        ctx.drawImage(image1, 0, 0, canvas.width, canvas.height);
+    } else {
+        inputLabel.innerHTML = `Resolution: ${inputSlider.value} px`
+        
+        eff.draw(parseInt(inputSlider.value));
+        // because inputSlider.value is a string
     }
 }
 
-let eff;
 image1.onload = function initialize() {
     canvas.width = image1.width;
     canvas.height = image1.height;
     eff = new ascii(ctx, image1.width, image1.height)
-    eff.draw(2);
-    //console.log(eff)
+    handleSlider();
 }
