@@ -3,7 +3,7 @@ const canvas = document.getElementById('canvas1');
 const ctx = canvas.getContext('2d');
 
 const image1 = new Image();
-image1.src = '../images/C4141apture.PNG';
+image1.src = '../images/touhou-patchouli.gif';
 
 const inputSlider = document.getElementById('resolution');
 const inputLabel = document.getElementById('resolutionLabel');
@@ -37,21 +37,25 @@ class ascii {
         this.#pixels = this.#ctx.getImageData(0, 0, this.#width, this.#height);
     }
 
+    generateAsciiText() {
+        const maxWidth = 80; 
+        let asciiText = '';
+        for (let i = 0; i < this.#imageCellArray.length; i++) {
+            asciiText += this.#imageCellArray[i].symbol;
+            if ((i + 1) % this.#pixels.width === 0) {
+                asciiText += '\n';
+            } else if ((i + 1) % maxWidth === 0) {
+                asciiText += '\n';
+            }
+        }
+        return asciiText;
+    }
+
     #convertToSymbol(g) {
-        if (g > 250) return '@';
-        else if (g > 240) return '*';
-        else if (g > 220) return '+';
-        else if (g > 200) return '#';
-        else if (g > 180) return '&';
-        else if (g > 160) return '%';
-        else if (g > 140) return '_';
-        else if (g > 120) return ':';
-        else if (g > 100) return '$';
-        else if (g > 80) return '/';
-        else if (g > 60) return '-';
-        else if (g > 40) return 'X';
-        else if (g > 20) return 'W';
-        else return '';
+        if (g > 220) return '@';
+        else if (g > 140) return '#';
+        else if (g > 60) return '8';
+        else return ' ';
     }
 
     #scanImage(cellSize) {
@@ -82,11 +86,18 @@ class ascii {
         for (let i = 0; i < this.#imageCellArray.length; i++) {
             this.#imageCellArray[i].draw(this.#ctx);
         }
+        
     }
 
     draw(cellSize) {
         this.#scanImage(cellSize);
         this.#drawAscii();
+
+        const asciiText = this.generateAsciiText();
+        const asciiTextArea = document.getElementById('asciiText');
+        asciiTextArea.value = asciiText;
+
+        
     }
 }
 let eff;
