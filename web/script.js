@@ -3,7 +3,7 @@ const canvas = document.getElementById('canvas1');
 const ctx = canvas.getContext('2d');
 
 const image1 = new Image();
-image1.src = '../images/touhou-patchouli.gif';
+image1.src = '../images/0tsxjxlwviib1.png';
 
 const inputSlider = document.getElementById('resolution');
 const inputLabel = document.getElementById('resolutionLabel');
@@ -51,6 +51,13 @@ class ascii {
         return asciiText;
     }
 
+    #drawAscii() {
+        this.#ctx.clearRect(0, 0, this.#width, this.#height);
+        for (let i = 0; i < this.#imageCellArray.length; i++) {
+            this.#imageCellArray[i].draw(this.#ctx);
+        }
+    }
+
     #convertToSymbol(g) {
         if (g > 220) return '@';
         else if (g > 140) return '#';
@@ -81,14 +88,6 @@ class ascii {
         console.log(this.#imageCellArray);
     }
 
-    #drawAscii() {
-        this.#ctx.clearRect(0, 0, this.#width, this.#height);
-        for (let i = 0; i < this.#imageCellArray.length; i++) {
-            this.#imageCellArray[i].draw(this.#ctx);
-        }
-        
-    }
-
     draw(cellSize) {
         this.#scanImage(cellSize);
         this.#drawAscii();
@@ -96,10 +95,9 @@ class ascii {
         const asciiText = this.generateAsciiText();
         const asciiTextArea = document.getElementById('asciiText');
         asciiTextArea.value = asciiText;
-
-        
     }
 }
+
 let eff;
 
 function handleSlider() {
