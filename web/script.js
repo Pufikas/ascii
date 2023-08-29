@@ -38,8 +38,8 @@ class ascii {
     }
 
     generateAsciiText() {
-        const maxWidth = 80; 
-        let asciiText = '';
+        const maxWidth = 40; 
+        let asciiText = String.fromCharCode(160);
         for (let i = 0; i < this.#imageCellArray.length; i++) {
             asciiText += this.#imageCellArray[i].symbol;
             if ((i + 1) % this.#pixels.width === 0) {
@@ -62,7 +62,7 @@ class ascii {
         if (g > 220) return '@';
         else if (g > 140) return '#';
         else if (g > 60) return '8';
-        else return ' ';
+        else return String.fromCharCode(160);
     }
 
     #scanImage(cellSize) {
@@ -81,7 +81,7 @@ class ascii {
                     const avrgColor = total / 3;
                     const color = `rgb(${red}, ${green}, ${blue})`;
                     const symbol = this.#convertToSymbol(avrgColor);
-                    if ( total > 200) this.#imageCellArray.push(new Cell(x, y, symbol, color));
+                    this.#imageCellArray.push(new Cell(x, y, symbol, color));
                 } 
             }
         }
