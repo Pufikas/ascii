@@ -1,13 +1,28 @@
 // use base64 convertor for images, or implement it into the site
 const canvas = document.getElementById('canvas1');
 const ctx = canvas.getContext('2d');
+//const downloadButton = document.getElementById('downloadButton');
 
 const image1 = new Image();
-image1.src = '../images/0tsxjxlwviib1.png';
+image1.src = '../images/c.png';
 
 const inputSlider = document.getElementById('resolution');
 const inputLabel = document.getElementById('resolutionLabel');
 inputSlider.addEventListener('change', handleSlider);
+
+function downloadButton() {
+    const canvasUrl = canvas.toDataURL();
+    const downloadLink = document.createElement("a");
+    downloadLink.href = canvasUrl;
+    downloadLink.download = 'image.png'; // def link
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+}
+
+
+
+
 
 class Cell {
     constructor(x, y, symbol, color) {
