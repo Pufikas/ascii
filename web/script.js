@@ -1,14 +1,9 @@
 // use base64 convertor for images, or implement it into the site
-const canvas = document.getElementById('canvas1');
-const ctx = canvas.getContext('2d');
+
 //const downloadButton = document.getElementById('downloadButton');
 
-const image1 = new Image();
-image1.src = '../images/c.png';
 
-const inputSlider = document.getElementById('resolution');
-const inputLabel = document.getElementById('resolutionLabel');
-inputSlider.addEventListener('change', handleSlider);
+
 
 function downloadButton() {
     const canvasUrl = canvas.toDataURL();
@@ -20,18 +15,57 @@ function downloadButton() {
     document.body.removeChild(downloadLink);
 }
 
-const fileInput = document.getElementById("fileInput");
-const chooseImgBtn = document.getElementById("chooseImage");
 
-const loadImage = () => {
-    let file = fileInput.files[0]; // gets the selected file
-    if (!file) return;
+function handleImageChange() {
+    const canvas = document.getElementById('canvas1');
+    const ctx = canvas.getContext('2d');
+    const inputSlider = document.getElementById('resolution');
+    const inputLabel = document.getElementById('resolutionLabel');
+    const fileInput = document.getElementById("fileInput");
+    const chooseImgBtn = document.getElementById("chooseImage");
+    const asciiTextArea = document.getElementById('asciiText');
 
-    console.log(file)
+    let eff;
+    const mainImage = new Image();
+
+    fileInput.addEventListener("change", () => {
+        const file = fileInput.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                mainImage.onload = function() {
+                    let scale = 1.5;
+                    if (mainImage.width > 800 || mainImage.height > 800) {
+                        scale = Math.min(800 / mainImage.width, 800 / mainImage.height);
+                    }
+                    const targetWidth = mainImage.width * scale;
+                    const targetHeight = mainImage.height * scale;
+                    canvas.width = targetWidth;
+                    canvas.height = targetHeight;
+                    ctx.drawImage(mainImage, 0, 0, targetWidth, targetHeight);
+                    eff = new ascii(ctx, targetWidth, targetHeight, mainImage);
+                    handleSlider();
+                };
+                mainImage.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+    inputSlider.addEventListener('change', handleSlider);
+
+    function handleSlider() {
+        if (inputSlider.value == 1) {
+            inputLabel.innerHTML = 'Original image';
+            ctx.drawImage(mainImage, 0, 0, canvas.width, canvas.height);
+        } else {
+            inputLabel.innerHTML = `Resolution: ${inputSlider.value} px`;
+            
+            eff.draw(parseInt(inputSlider.value));
+            // because inputSlider.value is a string
+        }
+    }
 }
 
-fileInput.addEventListener("change", loadImage);
-chooseImgBtn.addEventListener("click", () => fileInput.click());
 
 class Cell {
     constructor(x, y, symbol, color) {
@@ -53,11 +87,11 @@ class ascii {
     #width;
     #height;
 
-    constructor(ctx, width, height) {
+    constructor(ctx, width, height, image) {
         this.#ctx = ctx;
         this.#width = width;
         this.#height = height;
-        this.#ctx.drawImage(image1, 0, 0, this.#width, this.#height);
+        this.#ctx.drawImage(image, 0, 0, this.#width, this.#height);
         this.#pixels = this.#ctx.getImageData(0, 0, this.#width, this.#height);
     }
 
@@ -122,23 +156,11 @@ class ascii {
     }
 }
 
-let eff;
+// image1.onload = function initialize() {
+//     canvas.width = image1.width;
+//     canvas.height = image1.height;
+//     eff = new ascii(ctx, image1.width, image1.height)
+//     handleSlider();
+// }
 
-function handleSlider() {
-    if (inputSlider.value == 1) {
-        inputLabel.innerHTML = 'Original image';
-        ctx.drawImage(image1, 0, 0, canvas.width, canvas.height);
-    } else {
-        inputLabel.innerHTML = `Resolution: ${inputSlider.value} px`
-        
-        eff.draw(parseInt(inputSlider.value));
-        // because inputSlider.value is a string
-    }
-}
-
-image1.onload = function initialize() {
-    canvas.width = image1.width;
-    canvas.height = image1.height;
-    eff = new ascii(ctx, image1.width, image1.height)
-    handleSlider();
-}
+handleImageChange();
