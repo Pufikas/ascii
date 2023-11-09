@@ -20,9 +20,18 @@ function downloadButton() {
     document.body.removeChild(downloadLink);
 }
 
+const fileInput = document.getElementById("fileInput");
+const chooseImgBtn = document.getElementById("chooseImage");
 
+const loadImage = () => {
+    let file = fileInput.files[0]; // gets the selected file
+    if (!file) return;
 
+    console.log(file)
+}
 
+fileInput.addEventListener("change", loadImage);
+chooseImgBtn.addEventListener("click", () => fileInput.click());
 
 class Cell {
     constructor(x, y, symbol, color) {
