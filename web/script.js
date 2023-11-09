@@ -2,7 +2,7 @@
 
 //const downloadButton = document.getElementById('downloadButton');
 
-
+let defoImg = "images/c.png";
 
 
 function downloadButton() {
