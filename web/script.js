@@ -5,6 +5,8 @@
 let defoImg = "images/c.png";
 
 
+
+
 function downloadButton() {
     const canvasUrl = canvas.toDataURL();
     const downloadLink = document.createElement("a");
@@ -24,10 +26,46 @@ function handleImageChange() {
     const fileInput = document.getElementById("fileInput");
     const chooseImgBtn = document.getElementById("chooseImage");
     const asciiTextArea = document.getElementById('asciiText');
+    const filterOptions = document.querySelectorAll('.filter button');
+    const filterName = document.querySelector('.filterInfo .name');
+    const filterSlider = document.querySelector('.filterSlider input');
+    const filterValue = document.querySelector('.filterSlider .value');
 
+    let brightness = 100, saturation = 100, inversion = 0, grayscale = 0;
     let eff;
     const mainImage = new Image();
 
+    const updateFilter = () => {
+        filterValue.innerText = `${filterSlider.value}%`;
+        const selectedFilter = document.querySelector(".filter .active");
+
+        if (selectedFilter.id === "brightness") {
+            brightness = filterSlider.value;
+        } else if (selectedFilter.id === "saturation") {
+            saturation = filterSlider.value;
+        } else if (selectedFilter.id === "inversion") {
+            inversion = filterSlider.value;
+        } else {
+            grayscale = filterSlider.value;
+        }
+    }
+    filterSlider.addEventListener("input", updateFilter);
+
+    
+
+    // filter options
+    filterOptions.forEach(option => {
+        option.addEventListener("click", () => {
+            document.querySelector(".filter .active").classList.remove("active");
+            option.classList.add("active"); // update classes on click
+
+            filterName.innerHTML = option.innerText; // set the name
+
+            console.log(option);
+        })
+    })
+
+    chooseImgBtn.addEventListener("click", () => fileInput.click()); // just so we can style the btn
     fileInput.addEventListener("change", () => {
         const file = fileInput.files[0];
         if (file) {
