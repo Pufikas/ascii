@@ -35,6 +35,10 @@ function handleImageChange() {
     let eff;
     const mainImage = new Image();
 
+    const applyFilters = () => {
+        canvas.style.filter = `brightness(${brightness}%) saturation(${saturation}%) inversion(${inversion}%) grayscale(${grayscale}%)`
+    }
+
     const updateFilter = () => {
         filterValue.innerText = `${filterSlider.value}%`;
         const selectedFilter = document.querySelector(".filter .active");
@@ -48,6 +52,7 @@ function handleImageChange() {
         } else {
             grayscale = filterSlider.value;
         }
+        applyFilters();
     }
     filterSlider.addEventListener("input", updateFilter);
 
@@ -61,6 +66,23 @@ function handleImageChange() {
 
             filterName.innerHTML = option.innerText; // set the name
 
+            if (option.id === "brightness") {
+                filterSlider.max = "200";
+                filterSlider.value = brightness;
+                filterValue.innerText = `${brightness}%`;
+            } else if (option.id === "saturation") {
+                filterSlider.max = "200";
+                filterSlider.value = saturation;
+                filterValue.innerText = `${saturation}%`;
+            } else if (option.id === "inversion") {
+                filterSlider.max = "100";
+                filterSlider.value = inversion;
+                filterValue.innerText = `${inversion}%`;
+            } else {
+                filterSlider.max = "100";
+                filterSlider.value = grayscale;
+                filterValue.innerText = `${grayscale}%`;
+            }
             console.log(option);
         })
     })
