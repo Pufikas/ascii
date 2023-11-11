@@ -156,7 +156,7 @@ class ascii {
     }
 
     generateAsciiText() {
-        const maxWidth = 40; 
+        const maxWidth = 50; 
         let asciiText = String.fromCharCode(160);
         for (let i = 0; i < this.#imageCellArray.length; i++) {
             asciiText += this.#imageCellArray[i].symbol;
@@ -181,6 +181,18 @@ class ascii {
         else if (g > 140) return '#';
         else if (g > 60) return '8';
         else return String.fromCharCode(160);
+
+        // small
+        /*
+            const symbols = [' ', '.', ':', '-', '=', '+', '*', '#', '%', '@'];
+
+            const index = Math.floor((g / 255) * (symbols.length - 1));
+            return symbols[index];
+        */
+
+
+        // simple
+        // return g > 128 ? ' ' : '@';
     }
 
     #scanImage(cellSize) {
@@ -192,11 +204,13 @@ class ascii {
                 const pos = (posY * this.#pixels.width) + posX;
 
                 if (this.#pixels.data[pos + 3] > 128) {
+                    const black = this.#pixels.data[pos] < 120;
+                    const transparent = this.#pixels.data[pos + 3] < 50;
                     const red = this.#pixels.data[pos];
                     const green = this.#pixels.data[pos + 1];
                     const blue = this.#pixels.data[pos + 2];
-                    const total = red + green + blue;
-                    const avrgColor = total / 3;
+                    const total = red + green + blue + transparent + black;
+                    const avrgColor = total / 5;
                     const color = `rgb(${red}, ${green}, ${blue})`;
                     const symbol = this.#convertToSymbol(avrgColor);
                     this.#imageCellArray.push(new Cell(x, y, symbol, color));
