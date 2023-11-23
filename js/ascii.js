@@ -48,18 +48,19 @@ class ascii {
     }
 
     #convertToSymbol(g) {
+        /*
         if (g > 220) return '@';
         else if (g > 140) return '#';
         else if (g > 60) return '8';
         else return String.fromCharCode(160);
-
+*/
         // small
-        /*
+        
             const symbols = [' ', '.', ':', '-', '=', '+', '*', '#', '%', '@'];
 
             const index = Math.floor((g / 255) * (symbols.length - 1));
             return symbols[index];
-        */
+        
 
 
         // simple

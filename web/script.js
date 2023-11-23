@@ -21,20 +21,45 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-    function downloadButton() {
-        const canvasUrl = canvas.toDataURL();
-        const downloadLink = document.createElement("a");
-        downloadLink.href = canvasUrl;
-        downloadLink.download = 'image.png'; // def link
-        document.body.appendChild(downloadLink);
-        downloadLink.click();
-        document.body.removeChild(downloadLink);
-    }
+    // function downloadButton() {
+    //     const canvasUrl = canvas.toDataURL();
+    //     const downloadLink = document.createElement("a");
+    //     downloadLink.href = canvasUrl;
+    //     downloadLink.download = 'image.png'; // def link
+    //     document.body.appendChild(downloadLink);
+    //     downloadLink.click();
+    //     document.body.removeChild(downloadLink);
+    // }
 
 
     function handleImageChange() {
         const applyFilters = () => {
             canvas.style.filter = `brightness(${brightness}%) saturation(${saturation}%) inversion(${inversion}%) grayscale(${grayscale}%)`
+        
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const pixels = imageData.data;
+
+            for (let i = 0; i < pixels.length; i += 4) {
+                pixels[i] += brightness * 0.1;
+        
+                // might need a better approach for saturation adjustment
+                const grayscale = 0.3 * pixels[i] + 0.59 * pixels[i + 1] + 0.11 * pixels[i + 2];
+                pixels[i] = grayscale + saturation * (pixels[i] - grayscale);
+                pixels[i + 1] = grayscale + saturation * (pixels[i + 1] - grayscale);
+                pixels[i + 2] = grayscale + saturation * (pixels[i + 2] - grayscale);
+        
+                // inversion
+                pixels[i] = 255 - pixels[i];
+                pixels[i + 1] = 255 - pixels[i + 1];
+                pixels[i + 2] = 255 - pixels[i + 2];
+        
+                // grayscale
+                const avg = (pixels[i] + pixels[i + 1] + pixels[i + 2]) / 3;
+                pixels[i] = avg + (grayscale - avg) * grayscale / 100;
+                pixels[i + 1] = avg + (grayscale - avg) * grayscale / 100;
+                pixels[i + 2] = avg + (grayscale - avg) * grayscale / 100;
+            }
+            ctx.putImageData(imageData, 0, 0);
         }
 
         const updateFilter = () => {
@@ -53,7 +78,6 @@ document.addEventListener('DOMContentLoaded', function () {
             applyFilters();
         }
         
-
         // filter options
         filterOptions.forEach(option => {
             option.addEventListener("click", () => {
@@ -83,7 +107,7 @@ document.addEventListener('DOMContentLoaded', function () {
             })
         })
 
-        
+        // choose image
         fileInput.addEventListener("change", () => {
             const file = fileInput.files[0];
             if (file) {
@@ -108,6 +132,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
         
+        // resolution scale
         function handleSlider() {
             if (inputSlider.value == 1) {
                 inputLabel.innerHTML = 'Original image';
