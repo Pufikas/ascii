@@ -26,20 +26,6 @@ class ascii {
         this.#pixels = this.#ctx.getImageData(0, 0, this.#width, this.#height);
     }
 
-    generateAsciiText() {
-        const maxWidth = 50; 
-        let asciiText = String.fromCharCode(160);
-        for (let i = 0; i < this.#imageCellArray.length; i++) {
-            asciiText += this.#imageCellArray[i].symbol;
-            if ((i + 1) % this.#pixels.width === 0) {
-                asciiText += '\n';
-            } else if ((i + 1) % maxWidth === 0) {
-                asciiText += '\n';
-            }
-        }
-        return asciiText;
-    }
-
     #drawAscii() {
         this.#ctx.clearRect(0, 0, this.#width, this.#height);
         for (let i = 0; i < this.#imageCellArray.length; i++) {
@@ -48,6 +34,35 @@ class ascii {
     }
 
     #convertToSymbol(g) {
+        // if (g > 250) return '@';
+        // else if (g < 240) return '*';
+        // else if (g < 220) return '+';
+        // else if (g < 200) return '#';
+        // else if (g < 180) return '&';
+        // else if (g < 160) return '%';
+        // else if (g < 140) return '_';
+        // else if (g < 120) return ':';
+        // else if (g < 100) return '$';
+        // else if (g < 80) return '/';
+        // else if (g < 60) return '-';
+        // else if (g < 40) return 'X';
+        // else if (g < 20) return 'W';
+        // else return '';
+        
+        if (g > 240) return '@';
+        else if (g > 220) return '#';
+        else if (g > 200) return '8';
+        else if (g > 180) return '&';
+        else if (g > 160) return 'o';
+        else if (g > 140) return ':';
+        else if (g > 120) return '*';
+        else if (g > 100) return '.';
+        else if (g > 80) return ' ';
+        else if (g > 60) return '^';
+        else if (g > 40) return '+';
+        else if (g > 20) return '=';
+        else return '';
+        
         /*
         if (g > 220) return '@';
         else if (g > 140) return '#';
@@ -56,10 +71,10 @@ class ascii {
 */
         // small
         
-            const symbols = [' ', '.', ':', '-', '=', '+', '*', '#', '%', '@'];
+            // const symbols = [' ', '.', ':', '-', '=', '+', '*', '#', '%', '@'];
 
-            const index = Math.floor((g / 255) * (symbols.length - 1));
-            return symbols[index];
+            // const index = Math.floor((g / 255) * (symbols.length - 1));
+            // return symbols[index];
         
 
 
@@ -86,18 +101,34 @@ class ascii {
                     const color = `rgb(${red}, ${green}, ${blue})`;
                     const symbol = this.#convertToSymbol(avrgColor);
                     this.#imageCellArray.push(new Cell(x, y, symbol, color));
-                } 
+                }
             }
         }
         console.log(this.#imageCellArray);
     }
 
+    generateAsciiText(cellSize) {
+       let asciiText = '';
+        const cellsPerRow = Math.floor(this.#pixels.width / cellSize);
+
+       for (let i = 0; i < this.#imageCellArray.length; i++) {
+            asciiText += this.#imageCellArray[i].symbol + ' ';
+
+            if ((i + 1) % cellsPerRow === 0) {
+                asciiText += '\n';
+            }
+       }
+
+       document.getElementById("asciiText").value = asciiText;
+    }
+
     draw(cellSize) {
         this.#scanImage(cellSize);
         this.#drawAscii();
+        this.generateAsciiText(cellSize);
 
-        const asciiText = this.generateAsciiText();
-        const asciiTextArea = document.getElementById('asciiText');
-        asciiTextArea.value = asciiText;
+        // const asciiText = this.generateAsciiText();
+        // const asciiTextArea = document.getElementById('asciiText');
+        // asciiTextArea.value = asciiText;
     }
 }
