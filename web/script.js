@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const filterValue = document.querySelector('.filterSlider .value');
     const symbolOptionsContainer = document.querySelector('.symbolOptions');
     
+
     let brightness = 100, saturation = 100, inversion = 0, grayscale = 0;
     let eff;
     const mainImage = new Image();

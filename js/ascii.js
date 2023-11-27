@@ -84,6 +84,7 @@ class ascii {
 
     #scanImage(cellSize) {
         this.#imageCellArray = [];
+        
         for (let y = 0; y < this.#pixels.height; y += cellSize) {
             for (let x = 0; x < this.#pixels.width; x += cellSize) {
                 const posX = x * 4;
@@ -96,8 +97,8 @@ class ascii {
                     const red = this.#pixels.data[pos];
                     const green = this.#pixels.data[pos + 1];
                     const blue = this.#pixels.data[pos + 2];
-                    const total = red + green + blue;
-                    const avrgColor = total / 3;
+                    const total = red + green + blue + transparent;
+                    const avrgColor = total / 4;
                     const color = `rgb(${red}, ${green}, ${blue})`;
                     const symbol = this.#convertToSymbol(avrgColor);
                     this.#imageCellArray.push(new Cell(x, y, symbol, color));
