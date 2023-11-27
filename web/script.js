@@ -14,23 +14,20 @@ document.addEventListener('DOMContentLoaded', function () {
     const filterName = document.querySelector('.filterInfo .name');
     const filterSlider = document.querySelector('.filterSlider input');
     const filterValue = document.querySelector('.filterSlider .value');
-
+    const symbolOptionsContainer = document.querySelector('.symbolOptions');
+    
     let brightness = 100, saturation = 100, inversion = 0, grayscale = 0;
     let eff;
     const mainImage = new Image();
 
 
-
-    // function downloadButton() {
-    //     const canvasUrl = canvas.toDataURL();
-    //     const downloadLink = document.createElement("a");
-    //     downloadLink.href = canvasUrl;
-    //     downloadLink.download = 'image.png'; // def link
-    //     document.body.appendChild(downloadLink);
-    //     downloadLink.click();
-    //     document.body.removeChild(downloadLink);
-    // }
-
+    function downloadCurrImg() {
+        const element = document.createElement("a");
+        const fileName = `image.png`;
+        
+        element.setAttribute("download", fileName);
+        element.click();
+    }
 
     function handleImageChange() {
         const applyFilters = () => {
@@ -154,116 +151,4 @@ document.addEventListener('DOMContentLoaded', function () {
     handleImageChange();
 });
 
-
-
-
-// class Cell {
-//     constructor(x, y, symbol, color) {
-//         this.x = x;
-//         this.y = y;
-//         this.symbol = symbol;
-//         this.color = color;
-//     }
-//     draw(ctx) {
-//         ctx.fillStyle = this.color;
-//         ctx.fillText(this.symbol, this.x, this.y)
-//     }
-// }
-
-// class ascii {
-//     #imageCellArray = [];
-//     #pixels = [];
-//     #ctx;
-//     #width;
-//     #height;
-
-//     constructor(ctx, width, height, image) {
-//         this.#ctx = ctx;
-//         this.#width = width;
-//         this.#height = height;
-//         this.#ctx.drawImage(image, 0, 0, this.#width, this.#height);
-//         this.#pixels = this.#ctx.getImageData(0, 0, this.#width, this.#height);
-//     }
-
-//     generateAsciiText() {
-//         const maxWidth = 50; 
-//         let asciiText = String.fromCharCode(160);
-//         for (let i = 0; i < this.#imageCellArray.length; i++) {
-//             asciiText += this.#imageCellArray[i].symbol;
-//             if ((i + 1) % this.#pixels.width === 0) {
-//                 asciiText += '\n';
-//             } else if ((i + 1) % maxWidth === 0) {
-//                 asciiText += '\n';
-//             }
-//         }
-//         return asciiText;
-//     }
-
-//     #drawAscii() {
-//         this.#ctx.clearRect(0, 0, this.#width, this.#height);
-//         for (let i = 0; i < this.#imageCellArray.length; i++) {
-//             this.#imageCellArray[i].draw(this.#ctx);
-//         }
-//     }
-
-//     #convertToSymbol(g) {
-//         if (g > 220) return '@';
-//         else if (g > 140) return '#';
-//         else if (g > 60) return '8';
-//         else return String.fromCharCode(160);
-
-//         // small
-//         /*
-//             const symbols = [' ', '.', ':', '-', '=', '+', '*', '#', '%', '@'];
-
-//             const index = Math.floor((g / 255) * (symbols.length - 1));
-//             return symbols[index];
-//         */
-
-
-//         // simple
-//         // return g > 128 ? ' ' : '@';
-//     }
-
-//     #scanImage(cellSize) {
-//         this.#imageCellArray = [];
-//         for (let y = 0; y < this.#pixels.height; y += cellSize) {
-//             for (let x = 0; x < this.#pixels.width; x += cellSize) {
-//                 const posX = x * 4;
-//                 const posY = y * 4;
-//                 const pos = (posY * this.#pixels.width) + posX;
-
-//                 if (this.#pixels.data[pos + 3] > 128) {
-//                     const black = this.#pixels.data[pos] < 120;
-//                     const transparent = this.#pixels.data[pos + 3] < 50;
-//                     const red = this.#pixels.data[pos];
-//                     const green = this.#pixels.data[pos + 1];
-//                     const blue = this.#pixels.data[pos + 2];
-//                     const total = red + green + blue + transparent + black;
-//                     const avrgColor = total / 5;
-//                     const color = `rgb(${red}, ${green}, ${blue})`;
-//                     const symbol = this.#convertToSymbol(avrgColor);
-//                     this.#imageCellArray.push(new Cell(x, y, symbol, color));
-//                 } 
-//             }
-//         }
-//         console.log(this.#imageCellArray);
-//     }
-
-//     draw(cellSize) {
-//         this.#scanImage(cellSize);
-//         this.#drawAscii();
-
-//         const asciiText = this.generateAsciiText();
-//         const asciiTextArea = document.getElementById('asciiText');
-//         asciiTextArea.value = asciiText;
-//     }
-// }
-
-// image1.onload = function initialize() {
-//     canvas.width = image1.width;
-//     canvas.height = image1.height;
-//     eff = new ascii(ctx, image1.width, image1.height)
-//     handleSlider();
-// }
 

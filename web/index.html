@@ -17,6 +17,15 @@
         <canvas id="canvas1"></canvas>
     
         <div class="editorPanel">
+
+            <div class="symbols">
+                <label class="title">Symbols</label>
+                <div class="symbolOptions">
+                    <button id="simpleSymbolsBtn" onclick="setMode('simple')">Simple</button>
+                    <button id="anotherSimpleSymbolsBtn" onclick="setMode('anothersimple')">Simple Another</button>
+                </div>
+            </div>
+
             <div class="filter">
                 <label class="title">Filters</label>
                 <div class="filterOptions">
@@ -45,6 +54,7 @@
         </div>
 
         <div class="controls">
+            
             <label for="resolution" id="resolutionLabel">Resolution 5 px</label>
             <input type="range" id="resolution" name="resolution" min="1" max="20" value="1">
             
@@ -53,7 +63,7 @@
             <input type="file" id="fileInput" accept="image/*" hidden>
 
             <button id="chooseImage">Choose Image</button>
-            <button id="saveImage">Save Image</button>
+            <button id="saveImage" onclick="downloadCurrImg()">Save Image</button>
         </div>
 
         <textarea id="asciiText" rows="100" cols="100"></textarea>
