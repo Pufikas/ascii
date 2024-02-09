@@ -34,52 +34,10 @@ class ascii {
     }
 
     #convertToSymbol(g) {
-        // if (g > 250) return '@';
-        // else if (g < 240) return '*';
-        // else if (g < 220) return '+';
-        // else if (g < 200) return '#';
-        // else if (g < 180) return '&';
-        // else if (g < 160) return '%';
-        // else if (g < 140) return '_';
-        // else if (g < 120) return ':';
-        // else if (g < 100) return '$';
-        // else if (g < 80) return '/';
-        // else if (g < 60) return '-';
-        // else if (g < 40) return 'X';
-        // else if (g < 20) return 'W';
-        // else return '';
-        
-        if (g > 240) return '@';
-        else if (g > 220) return '#';
-        else if (g > 200) return '8';
-        else if (g > 180) return '&';
-        else if (g > 160) return 'o';
-        else if (g > 140) return ':';
-        else if (g > 120) return '*';
-        else if (g > 100) return '.';
-        else if (g > 80) return ' ';
-        else if (g > 60) return '^';
-        else if (g > 40) return '+';
-        else if (g > 20) return '=';
-        else return '';
-        
-        /*
         if (g > 220) return '@';
         else if (g > 140) return '#';
         else if (g > 60) return '8';
         else return String.fromCharCode(160);
-*/
-        // small
-        
-            // const symbols = [' ', '.', ':', '-', '=', '+', '*', '#', '%', '@'];
-
-            // const index = Math.floor((g / 255) * (symbols.length - 1));
-            // return symbols[index];
-        
-
-
-        // simple
-        // return g > 128 ? ' ' : '@';
     }
 
     #scanImage(cellSize) {
