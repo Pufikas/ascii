@@ -33,7 +33,7 @@ body {
 
 .controls > input {
    
-    width: 60%;
+    width: 20%;
 }
 
 .controls > label {
@@ -48,4 +48,8 @@ body {
     line-height: 1.4;
     font-family: 'Consolas','BitstreamVeraSansMono','CourierNew',Courier,monospace;
     font-size: 12px;
+}
+
+.resolutionDiv {
+    margin: 20px;
 }

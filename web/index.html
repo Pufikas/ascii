@@ -17,7 +17,7 @@
     <div class="container">
         <canvas id="canvas1"></canvas>
     
-        <div class="editorPanel">
+        <!-- <div class="editorPanel">
 
             <div class="symbols">
                 <label class="title">Symbols</label>
@@ -52,22 +52,32 @@
                     <button><i class="bx bx-reflect-horizontal"></i></button>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <div class="controls">
-            
-            <label for="resolution" id="resolutionLabel">Resolution 5 px</label>
-            <input type="range" id="resolution" name="resolution" min="1" max="20" value="1">
-            
-            
+            <label for="fileInput">Select image:</label>
+            <input id="fileInput" name="userfile" type="file">
+
             <button class="resetAll">Reset</button>
             <input type="file" id="fileInput" accept="image/*" hidden>
 
-            <button id="chooseImage">Choose Image</button>
+            <input id="fileConvertBtn" class="button" type="submit" value="Start" name="submit">
+                
             <button id="saveImage" onclick="downloadCurrImg()">Save Image</button>
         </div>
+        
+        <div id="resolutionDiv">
+            <label for="resolution" id="resolutionLabel">Resolution 5 px</label>
+            <br>
+            <input type="range" id="resolution" name="resolution" min="1" max="20" value="1">
+        </div>
+       
+        <h4>Preview</h4>
+        <div id="resultResizePreview">
+        <canvas id="resized"></canvas>
 
-        <textarea id="asciiText" rows="100" cols="100"></textarea>
+    </div>
+    <div id="resultPreview" font-family="monospace" style="font-size: 5px; white-space: pre;"></div>
     </div>
     
 </body>

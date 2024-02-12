@@ -66,6 +66,7 @@ class ascii {
         console.log(this.#imageCellArray);
     }
 
+    
     generateAsciiText(cellSize) {
        let asciiText = '';
         const cellsPerRow = Math.floor(this.#pixels.width / cellSize);
@@ -78,7 +79,7 @@ class ascii {
             }
        }
 
-       document.getElementById("asciiText").value = asciiText;
+       document.getElementById("asciiTextPreview").innerHTML = asciiText;
     }
 
     draw(cellSize) {
