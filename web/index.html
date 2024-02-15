@@ -8,16 +8,16 @@
     <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"/>
 
-    <script src="../js/ascii.js"></script>
     <script src="script.js"></script>
+    <script src="../js/ascii.js"></script>
+    <script src="../js/asciitext.js"></script>
     
-
 </head>
 <body>
     <div class="container">
         <canvas id="canvas1"></canvas>
     
-        <div class="editorPanel">
+        <!-- <div class="editorPanel">
 
             <div class="symbols">
                 <label class="title">Symbols</label>
@@ -52,7 +52,7 @@
                     <button><i class="bx bx-reflect-horizontal"></i></button>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <div class="controls">
             
@@ -66,15 +66,17 @@
             <button id="chooseImage">Choose Image</button>
             <button id="saveImage" onclick="downloadCurrImg()">Save Image</button>
         </div>
-
-        //<textarea id="asciiText" rows="100" cols="100"></textarea>
-        
-        <h4>Preview</h4>
-        <div id="resultResizePreview">
-        <canvas id="resized"></canvas>
-
     </div>
-    <div id="resultPreview" font-family="monospace" style="font-size: 5px; white-space: pre;"></div>
+
+        <!-- //<textarea id="asciiText" rows="100" cols="100"></textarea> -->
+        
+        
+        
+    <div class="container" id="asciiTextPreviewContainer">
+        <h4>Preview</h4>
+        <canvas id="resized"></canvas>
+        <div id="resultPreview" font-family="monospace" style="font-size: 5px; white-space: pre;"></div>
+        <button id="copyText" onclick="copyText()">Copy Ascii Text</button>
     </div>
     
 </body>

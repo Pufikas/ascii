@@ -67,25 +67,12 @@ class ascii {
     }
 
     
-    generateAsciiText(cellSize) {
-       let asciiText = '';
-        const cellsPerRow = Math.floor(this.#pixels.width / cellSize);
-
-       for (let i = 0; i < this.#imageCellArray.length; i++) {
-            asciiText += this.#imageCellArray[i].symbol + ' ';
-
-            if ((i + 1) % cellsPerRow === 0) {
-                asciiText += '\n';
-            }
-       }
-
-       document.getElementById("asciiTextPreview").innerHTML = asciiText;
-    }
+    
 
     draw(cellSize) {
         this.#scanImage(cellSize);
         this.#drawAscii();
-        this.generateAsciiText(cellSize);
+       
 
         // const asciiText = this.generateAsciiText();
         // const asciiTextArea = document.getElementById('asciiText');
