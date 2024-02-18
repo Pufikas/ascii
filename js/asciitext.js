@@ -37,50 +37,18 @@ document.addEventListener('DOMContentLoaded', function() {
     
             ctx.putImageData(imageData, 0, 0);
     
-            pixelsToAscii(image);
-        };
-    
-        img.src = URL.createObjectURL(image);
-    }
-    
-    function asciiText(file) {
-        let canvas = document.getElementById("resized");
-        let ctx = canvas.getContext("2d");
-    
-        file.onload = function() {
-            const ratio = file.height / file.width * 0.55;
-            const newHeight = newWidth * ratio;
             
-            canvas.width = newWidth;
-            canvas.height = newHeight;
-    
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.drawImage(file, 0, 0, newWidth, newHeight);
-    
-            const imageData = ctx.getImageData(0, 0, newWidth, newHeight);
-            const pixels = imageData.data;
-    
-            for (let i = 0; i < pixels.length; i += 4) {
-                const avg = (pixels[i] + pixels[i + 1] + pixels[i + 2]) / 3;
-                pixels[i] = avg; // red
-                pixels[i + 1] = avg; // green
-                pixels[i + 2] = avg; // blue
-            }
-    
-            ctx.putImageData(imageData, 0, 0);
-    
-            pixelsToAscii(file);
         };
-    
-        file.src = URL.createObjectURL(file);
+        img.src = URL.createObjectURL(image);
+        pixelsToAscii();
     }
     
-    function pixelsToAscii(image) {
+    function pixelsToAscii() {
         const characters = ["@", "#", "S", "%", "?", "*", "+", ";", ":", ",", "."];
         let canvas = document.getElementById("resized");
         let ctx = canvas.getContext("2d");
     
-        // Get the resized image data
+        // get the resized image data
         const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
         const pixels = imageData.data;
         let ascii = "";
@@ -106,21 +74,11 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     
-        // Instead of displaying directly, create a hidden textarea and copy the content to it
-        copyText(ascii);
+        displayAscii(ascii)
     }
     
     function copyText(ascii) {
-        const hiddenTextarea = document.createElement('textarea');
-        hiddenTextarea.value = ascii;
-        hiddenTextarea.setAttribute('readonly', '');
-        hiddenTextarea.style.position = 'absolute';
-        hiddenTextarea.style.left = '-9999px';
 
-        document.body.appendChild(hiddenTextarea);
-        hiddenTextarea.select();
-        document.execCommand('copy');
-        document.body.removeChild(hiddenTextarea);
 
         alert('ASCII text copied to clipboard!');
     }
@@ -131,5 +89,5 @@ document.addEventListener('DOMContentLoaded', function() {
         res.innerText = ascii;
     }
 
-    document.getElementById('chooseImage').addEventListener('click', processImage);
+    document.getElementById('convert').addEventListener('click', processImage);
 });

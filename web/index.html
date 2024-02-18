@@ -63,7 +63,12 @@
             <button class="resetAll">Reset</button>
             <input type="file" id="fileInput" accept="image/*" hidden>
 
-            <button id="chooseImage">Choose Image</button>
+            <div id="InputMenu">
+                <label for="chooseImage">Select image:</label>
+                <input id="chooseImage" name="userfile" type="file">
+            </div>
+            
+            <input id="convert" class="button" type="submit" value="Start" name="submit">
             <button id="saveImage" onclick="downloadCurrImg()">Save Image</button>
         </div>
     </div>
